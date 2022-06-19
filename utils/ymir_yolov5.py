@@ -5,7 +5,7 @@ import os.path as osp
 import shutil
 from enum import IntEnum
 from typing import Any, List, Tuple
-
+import os
 import numpy as np
 import torch
 import yaml
@@ -236,7 +236,11 @@ def write_ymir_training_result(cfg: edict, results: Tuple, maps: NDArray, rewrit
     map = results[3]  # mean of ap@0.5:0.95
 
     # use `rw.write_training_result` to save training result
-    rw.write_training_result(model_names=[f'{model}.yaml', 'best.pt', 'last.pt', 'best.onnx'],
+    save_files = []
+    for root, dirs, filenames in os.walk(cfg.ymir.output):
+        for f in filenames:
+            save_files.append(f)
+    rw.write_training_result(model_names=save_files,
                              mAP=float(map),
                              mAP50=float(map50),
                              precision=float(mp),

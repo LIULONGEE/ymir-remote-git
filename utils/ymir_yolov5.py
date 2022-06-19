@@ -237,7 +237,7 @@ def write_ymir_training_result(cfg: edict, results: Tuple, maps: NDArray, rewrit
 
     # use `rw.write_training_result` to save training result
     save_files = []
-    for root, dirs, filenames in os.walk(cfg.ymir.output):
+    for root, dirs, filenames in os.walk(cfg.ymir.output.root_dir):
         for f in filenames:
             save_files.append(f)
     rw.write_training_result(model_names=save_files,
